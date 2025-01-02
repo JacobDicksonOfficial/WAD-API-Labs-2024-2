@@ -1,21 +1,32 @@
-import dotenv from 'dotenv';
 import express from 'express';
-import tasksRouter from './api/tasks';
-import './db';
-
+import bodyParser from 'body-parser';
+import dotenv from 'dotenv';
+import './db'; // Import database connection
+import tasksRouter from './api/tasks/index.js';
 
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT;
 
-// Middleware to parse JSON data in the request body
-app.use(express.json());
+// Error handler middleware
+const errHandler = (err, req, res, next) => {
+  if (process.env.NODE_ENV === 'production') {
+    return res.status(500).send(`Something went wrong!`);
+  }
+  res.status(500).send(`Hey!! You caught the error 👍👍. Here's the details: ${err.stack} `);
+};
 
-// Route for handling tasks
+// Middleware
+app.use(bodyParser.json());
+
+// API routes
 app.use('/api/tasks', tasksRouter);
 
-// Start the server
-app.listen(port, () => {
-    console.info(`Server running at ${port}`);
+// Error handling middleware
+app.use(errHandler);
+
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
 });
+
