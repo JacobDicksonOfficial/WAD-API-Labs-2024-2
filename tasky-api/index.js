@@ -1,15 +1,14 @@
 import dotenv from 'dotenv';
 import express from 'express';
+import tasksRouter from './api/tasks';
 
-// Load environment variables
 dotenv.config();
 
-// Create an Express application
 const app = express();
 const port = process.env.PORT;
 
-// Serve static files from the "public" folder
-app.use(express.static('public'));
+// Use the tasks router
+app.use('/api/tasks', tasksRouter);
 
 // Start the server
 app.listen(port, () => {
