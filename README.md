@@ -1,2 +1,3 @@
-# WAD-API-Labs-2024-2
- 🎲 Hey There! I'm @JacobDicksonOfficial, and In this Repo I will be demonstrating Web App Development 🔍 
+# Web App Dev 2: Web API Labs
+
+Practical labs for the WAD2 module
