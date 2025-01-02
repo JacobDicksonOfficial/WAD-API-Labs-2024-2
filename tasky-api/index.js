@@ -7,7 +7,10 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT;
 
-// Use the tasks router
+// Middleware to parse JSON data in the request body
+app.use(express.json());
+
+// Route for handling tasks
 app.use('/api/tasks', tasksRouter);
 
 // Start the server
