@@ -3,6 +3,8 @@ import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import './db'; // Import database connection
 import tasksRouter from './api/tasks/index.js';
+import usersRouter from './api/users';
+
 
 dotenv.config();
 
@@ -24,6 +26,9 @@ app.use('/api/tasks', tasksRouter);
 
 // Error handling middleware
 app.use(errHandler);
+
+app.use('/api/users', usersRouter);
+
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
