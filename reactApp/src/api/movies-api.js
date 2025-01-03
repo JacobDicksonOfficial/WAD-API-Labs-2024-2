@@ -1,10 +1,3 @@
-export const getMovies = async () => {
-    const response = await  fetch(
-      `https://api.themoviedb.org/3/discover/movie?api_key=c1gfdg225ecfffffffff3612d8c1bcb4bcb&language=en-US&include_adult=false&page=1`
-    )
-    return response.json()
-  };
-
 export const login = async (username, password) => {
   const response = await fetch('http://localhost:8080/api/users', {
     headers: {
@@ -25,4 +18,14 @@ export const signup = async (username, password) => {
   body: JSON.stringify({ username: username, password: password })
 });
 return response.json();
+};
+
+export const getMovies = async () => {
+  const response = await fetch(
+    'http://localhost:8080/api/movies', {
+    headers: {
+      'Authorization': window.localStorage.getItem('token')
+    }
+  });
+  return response.json();
 };
