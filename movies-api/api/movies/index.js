@@ -8,9 +8,28 @@ const router = express.Router();
 
 // Get all movies
 router.get('/', asyncHandler(async (req, res) => {
-    const movies = await movieModel.find();
-    res.status(200).json(movies);
+    let { page = 1, limit = 10 } = req.query; // destructure page and limit with default values
+    [page, limit] = [+page, +limit]; // convert strings to numbers
+
+    // Parallel execution: Count total documents and fetch specific page results
+    const [total_results, results] = await Promise.all([
+        movieModel.estimatedDocumentCount(),
+        movieModel.find().limit(limit).skip((page - 1) * limit)
+    ]);
+
+    // Calculate total pages
+    const total_pages = Math.ceil(total_results / limit);
+
+    // Construct and send response
+    const returnObject = {
+        page,
+        total_pages,
+        total_results,
+        results
+    };
+    res.status(200).json(returnObject);
 }));
+
 
 // Get movie details by ID
 router.get('/:id', asyncHandler(async (req, res) => {
