@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import './db'; // Import database connection
 import tasksRouter from './api/tasks/index.js';
 import usersRouter from './api/users';
-
+import cors from 'cors';
 
 dotenv.config();
 
@@ -18,6 +18,10 @@ const errHandler = (err, req, res, next) => {
   res.status(500).send(`Hey!! You caught the error 👍👍. Here's the details: ${err.stack} `);
 };
 
+
+app.use(errHandler);
+
+
 // Middleware
 app.use(bodyParser.json());
 
@@ -28,6 +32,9 @@ app.use('/api/tasks', tasksRouter);
 app.use(errHandler);
 
 app.use('/api/users', usersRouter);
+
+app.use(cors());
+
 
 
 const PORT = process.env.PORT || 8080;
